@@ -14,9 +14,9 @@ install:
 
 	! type -P poetry &> /dev/null && pipx install poetry==1.7.1
 
-	# install meltpot_demo conda environment
-	$(CONDA) create -n meltpot_demo python=3.11 -y
-	$(CONDA_ACTIVATE) meltpot_demo
+	# install umd_demo conda environment
+	$(CONDA) create -n umd_demo python=3.11 -y
+	$(CONDA_ACTIVATE) umd_demo
 	conda install -c conda-forge libstdcxx-ng
 	
 	type python

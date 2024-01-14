@@ -27,7 +27,7 @@ def get_config():
     # Lua script configuration.
     config.lab2d_settings = {
         "levelName": "harvest",
-        "levelDirectory": "../../../../../../../../home/ezipe/git/melting-pot-demo/meltpot_demo/harvest/levels",
+        "levelDirectory": "../../../../../../../../home/ezipe/git/melting-pot-demo/umd_demo/harvest/levels",
         "maxEpisodeLengthFrames": 100,
         "numPlayers": 0,
         "spriteSize": 8,

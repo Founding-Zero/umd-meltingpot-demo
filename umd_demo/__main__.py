@@ -4,15 +4,15 @@ import typer
 from rich import print
 from typer_config.decorators import dump_json_config, use_json_config
 
-from meltpot_demo import setup_experiment
+from umd_demo import setup_experiment
 
 setup_experiment()
 from eztils.typer import dataclass_option
 
-from meltpot_demo import LOG_DIR, version
+from umd_demo import LOG_DIR, version
 
 app = typer.Typer(
-    name="meltpot_demo",
+    name="umd_demo",
     help="project_tag",
     add_completion=False,
 )
@@ -38,7 +38,7 @@ def main(
 ) -> None:
     """Print a greeting with a giving name."""
 
-    print(f"[bold green]Welcome to meltpot_demo v{version}[/]")
+    print(f"[bold green]Welcome to umd_demo v{version}[/]")
     print(f"example_config {type(example_config)}: {example_config}")
 
 

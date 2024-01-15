@@ -13,9 +13,11 @@
 # limitations under the License.
 """Configuration for finished tutorial level: Harvest."""
 
-from meltingpot.utils.substrates import shapes
 from ml_collections import config_dict
 
+from meltingpot.utils.substrates import shapes
+
+numPlayers = 5
 SPAWN_POINT = {
     "name": "spawn_point",
     "components": [
@@ -23,16 +25,18 @@ SPAWN_POINT = {
             "component": "StateManager",
             "kwargs": {
                 "initialState": "spawnPoint",
-                "stateConfigs": [{
-                    "state": "spawnPoint",
-                    "groups": ["spawnPoints"],
-                }],
-            }
+                "stateConfigs": [
+                    {
+                        "state": "spawnPoint",
+                        "groups": ["spawnPoints"],
+                    }
+                ],
+            },
         },
         {
             "component": "Transform",
         },
-    ]
+    ],
 }
 
 AVATAR = {
@@ -43,12 +47,14 @@ AVATAR = {
             "kwargs": {
                 "initialState": "player",
                 "stateConfigs": [
-                    {"state": "player",
-                     "layer": "upperPhysical",
-                     "contact": "avatar",
-                     "sprite": "Avatar",},
-                ]
-            }
+                    {
+                        "state": "player",
+                        "layer": "upperPhysical",
+                        "contact": "avatar",
+                        "sprite": "Avatar",
+                    },
+                ],
+            },
         },
         {
             "component": "Transform",
@@ -61,7 +67,7 @@ AVATAR = {
                 "spriteShapes": [shapes.CUTE_AVATAR],
                 "palettes": [{}],  # Will be overridden
                 "noRotates": [True],
-            }
+            },
         },
         {
             "component": "Avatar",
@@ -75,10 +81,10 @@ AVATAR = {
                     "forward": 5,
                     "backward": 1,
                     "centered": False,
-                }
-            }
+                },
+            },
         },
-    ]
+    ],
 }
 
 
@@ -89,12 +95,14 @@ WALL = {
             "component": "StateManager",
             "kwargs": {
                 "initialState": "wall",
-                "stateConfigs": [{
-                    "state": "wall",
-                    "layer": "upperPhysical",
-                    "sprite": "Wall",
-                }],
-            }
+                "stateConfigs": [
+                    {
+                        "state": "wall",
+                        "layer": "upperPhysical",
+                        "sprite": "Wall",
+                    }
+                ],
+            },
         },
         {
             "component": "Transform",
@@ -103,25 +111,17 @@ WALL = {
             "component": "Appearance",
             "kwargs": {
                 "renderMode": "ascii_shape",
-                "spriteNames": ["Wall",],
+                "spriteNames": [
+                    "Wall",
+                ],
                 "spriteShapes": [shapes.WALL],
                 "palettes": [shapes.WALL_PALETTE],
                 "noRotates": [True],
-            }
+            },
         },
-        {
-            "component": "BeamBlocker",
-            "kwargs": {
-                "beamType": "gift"
-            }
-        },
-        {
-            "component": "BeamBlocker",
-            "kwargs": {
-                "beamType": "zap"
-            }
-        },
-    ]
+        {"component": "BeamBlocker", "kwargs": {"beamType": "gift"}},
+        {"component": "BeamBlocker", "kwargs": {"beamType": "zap"}},
+    ],
 }
 
 APPLE = {
@@ -131,14 +131,17 @@ APPLE = {
             "component": "StateManager",
             "kwargs": {
                 "initialState": "apple",
-                "stateConfigs": [{
-                    "state": "apple",
-                    "layer": "lowerPhysical",
-                    "sprite": "Apple",
-                }, {
-                    "state": "appleWait",
-                }],
-            }
+                "stateConfigs": [
+                    {
+                        "state": "apple",
+                        "layer": "lowerPhysical",
+                        "sprite": "Apple",
+                    },
+                    {
+                        "state": "appleWait",
+                    },
+                ],
+            },
         },
         {
             "component": "Transform",
@@ -147,11 +150,13 @@ APPLE = {
             "component": "Appearance",
             "kwargs": {
                 "renderMode": "ascii_shape",
-                "spriteNames": ["Apple",],
+                "spriteNames": [
+                    "Apple",
+                ],
                 "spriteShapes": [shapes.LEGACY_APPLE],
                 "palettes": [shapes.GREEN_COIN_PALETTE],
                 "noRotates": [True],
-            }
+            },
         },
         {
             "component": "Edible",
@@ -159,7 +164,7 @@ APPLE = {
                 "liveState": "apple",
                 "waitState": "appleWait",
                 "rewardForEating": 1.0,
-            }
+            },
         },
         {
             "component": "DensityRegrow",
@@ -167,21 +172,21 @@ APPLE = {
                 "liveState": "apple",
                 "waitState": "appleWait",
                 "baseRate": 0.01,
-            }
+            },
         },
-    ]
+    ],
 }
 
 
 def get_config():
-  """Default configuration for the Harvest level."""
-  config = config_dict.ConfigDict()
+    """Default configuration for the Harvest level."""
+    config = config_dict.ConfigDict()
 
-  # Basic configuration.
-  config.individual_observation_names = ["RGB"]
-  config.global_observation_names = ["WORLD.RGB"]
+    # Basic configuration.
+    config.individual_observation_names = ["RGB"]
+    config.global_observation_names = ["WORLD.RGB"]
 
-  ascii_map = """
+    ascii_map = """
 **********************
 *      AAA       AAA *
 * AAA   A   AAA   A  *
@@ -195,33 +200,24 @@ def get_config():
 **********************
   """
 
-  # Lua script configuration.
-  config.lab2d_settings = {
-      "levelName":
-          "harvest_finished",
-      "levelDirectory":
-          "examples/tutorial/harvest/levels",
-      "maxEpisodeLengthFrames":
-          1000,
-      "numPlayers":
-          5,
-      "spriteSize":
-          8,
-      "simulation": {
-          "map": ascii_map,
-          "prefabs": {
-              "avatar": AVATAR,
-              "spawn_point": SPAWN_POINT,
-              "wall": WALL,
-              "apple": APPLE,
-          },
-          "charPrefabMap": {
-              "_": "spawn_point",
-              "*": "wall",
-              "A": "apple"
-          },
-          "playerPalettes": [],
-      },
-  }
+    # Lua script configuration.
+    config.lab2d_settings = {
+        "levelName": "harvest_finished",
+        "levelDirectory": "examples/tutorial/harvest/levels",
+        "maxEpisodeLengthFrames": 1000,
+        "numPlayers": numPlayers,
+        "spriteSize": 8,
+        "simulation": {
+            "map": ascii_map,
+            "prefabs": {
+                "avatar": AVATAR,
+                "spawn_point": SPAWN_POINT,
+                "wall": WALL,
+                "apple": APPLE,
+            },
+            "charPrefabMap": {"_": "spawn_point", "*": "wall", "A": "apple"},
+            "playerPalettes": [],
+        },
+    }
 
-  return config
+    return config

@@ -17,7 +17,7 @@ install:
 	# install umd_demo conda environment
 	$(CONDA) create -n umd_demo python=3.11 -y
 	$(CONDA_ACTIVATE) umd_demo
-	conda install -c conda-forge libstdcxx-ng
+	conda install -y -c conda-forge libstdcxx-ng
 	
 	type python
 	
@@ -27,7 +27,7 @@ install:
 
 	poetry lock -n && poetry export --without-hashes > requirements.txt
 	poetry install -n	
-	poetry run mypy --install-types --non-interactive ./
+	# poetry run mypy --install-types --non-interactive ./
 	poetry run pre-commit install
 
 #* Linting

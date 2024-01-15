@@ -54,7 +54,7 @@ _ACTION_MAP = {
  player values/types are random between 0 and 1. represents how much they value egalitarianism. 
  1 is most egalitarian, 0 is least egalitarian (utilitarian)
 """
-NUM_VOTING_ROUNDS = 10
+NUM_VOTING_ROUNDS = 1
 PLAYER_VALUES = np.random.uniform(size=[game.numPlayers])
 
 
@@ -77,7 +77,7 @@ def vote(player_values: np.ndarray) -> Callable:
 
 
 class Principal:
-    """Principal class for universal policy design
+    """Principal class for universal mechanism design
     In this setting, the principal computes a tax on the reward based on the number of apples collected by the agent.
     The tax should be between 0 and 1.5. 0 means no tax, 1.5 means 150% tax.
     """
@@ -103,7 +103,7 @@ class Principal:
 principal = Principal(egalitarian)
 
 
-class UPDWrapper(Lab2dWrapper):
+class UMDWrapper(Lab2dWrapper):
     """Wrapper that rebuilds the environment on reset."""
 
     def __init__(self, env: dmlab2d.Environment):
@@ -137,15 +137,15 @@ class UPDWrapper(Lab2dWrapper):
         return timestep
 
 
-def upd_builder(
+def umd_builder(
     lab2d_settings: Settings,
     prefab_overrides: Optional[Settings] = None,
     env_seed: Optional[int] = None,
     **settings,
 ) -> dmlab2d.Environment:
-    """Universal policy design builder"""
+    """Universal mechanism design builder"""
     env = builder(lab2d_settings, prefab_overrides, env_seed, **settings)
-    return UPDWrapper(env)
+    return UMDWrapper(env)
 
 
 def verbose_fn(unused_timestep, unused_player_index: int) -> None:
@@ -160,7 +160,7 @@ def main(argv):
     del argv  # Unused.
     for i in range(NUM_VOTING_ROUNDS):
         principal_objective = vote(PLAYER_VALUES)  # vote on objective
-        # principal.set_objective(principal_objective)
+        principal.set_objective(principal_objective)
         level_playing_utils.run_episode(
             FLAGS.observation,
             {},  # Settings overrides
@@ -172,7 +172,7 @@ def main(argv):
             FLAGS.frames_per_second,
             verbose_fn if FLAGS.verbose else None,
             text_display_fn if FLAGS.display_text else None,
-            env_builder=upd_builder,
+            env_builder=umd_builder,
         )
 
 

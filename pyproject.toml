@@ -1,5 +1,5 @@
 [tool.poetry]
-authors = ["ezhang7423 <ezhang@g.harvard.edu>"]
+authors = ["anon"]
 description = ""
 name = "umd_demo"
 readme = "README.md"
